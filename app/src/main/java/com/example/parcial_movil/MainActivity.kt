@@ -9,20 +9,17 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.tooling.preview.Preview
 import com.example.parcial_movil.ui.theme.Parcial_MovilTheme
 import androidx.compose.runtime.*
 import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.height
 import androidx.compose.material3.*
-import androidx.compose.ui.Alignment
 import androidx.compose.ui.unit.dp
 import com.example.parcial_movil.ui.theme.Red
 import androidx.compose.ui.text.input.PasswordVisualTransformation
-import androidx.compose.ui.text.input.VisualTransformation
+import com.example.parcial_movil.ui.theme.MenuScreen
 
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -32,7 +29,7 @@ class MainActivity : ComponentActivity() {
             Parcial_MovilTheme {
                 var isRegistered by remember {mutableStateOf(false)}
                 if (isRegistered){
-                    HomeScreen()
+                    MenuScreen {  }
                 }else{
                     RegisterScreen (
                         onRegisterSuccess = {
@@ -99,13 +96,4 @@ class MainActivity : ComponentActivity() {
 
 // Esta es una función provisional hasta que se haga la ventana de mediciones a la que se ingresa
 // apenas se oprime el boton (las de medidas)
-@Preview(showBackground = true)
-@Composable
-fun HomeScreen() {
-    Box(
-        modifier = Modifier.fillMaxSize(),
-        contentAlignment = Alignment.Center
-    ) {
-        Text("Bienvenido 🎉")
-    }
-}
+
