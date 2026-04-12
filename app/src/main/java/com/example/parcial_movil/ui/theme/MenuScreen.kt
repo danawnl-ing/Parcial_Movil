@@ -1,7 +1,6 @@
 package com.example.parcial_movil.ui.theme
 
 import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.material3.Button
@@ -13,7 +12,7 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-
+import com.example.parcial_movil.ui.theme.LongitudScreen
 //Funcion para colocar cada boton para las ventanas
 @Composable
 fun MenuScreen(onNavigateToLength: () -> Unit) {
