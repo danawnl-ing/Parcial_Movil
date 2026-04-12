@@ -15,24 +15,28 @@ import androidx.compose.ui.Modifier
 import com.example.parcial_movil.ui.theme.LongitudScreen
 //Funcion para colocar cada boton para las ventanas
 @Composable
-fun MenuScreen(onNavigateToLength: () -> Unit) {
-    Row (
+fun MenuScreen(
+    onNavigateToLength: () -> Unit,
+    onNavigateToMagnitud: () -> Unit
+) {
+    Row(
         modifier = Modifier
             .fillMaxSize()
             .padding(16.dp),
         horizontalArrangement = Arrangement.SpaceEvenly,
-        verticalAlignment = Alignment.CenterVertically){
+        verticalAlignment = Alignment.CenterVertically
+    ) {
+
         Button(onClick = { onNavigateToLength() }) {
             Text("Longitud")
         }
-        Spacer(modifier = Modifier.height(8.dp))
 
-        Button(onClick = { /* futuro */ }) {
+        Button(onClick = { /* futuro masa */ }) {
             Text("Masa")
         }
 
-        Button(onClick = { /* futuro */ }) {
-            Text("Magnitud fisica") //Esta se cambia segun la magnitud que se escoja
+        Button(onClick = { onNavigateToMagnitud() }) {
+            Text("Magnitud fisica")
         }
     }
 }
