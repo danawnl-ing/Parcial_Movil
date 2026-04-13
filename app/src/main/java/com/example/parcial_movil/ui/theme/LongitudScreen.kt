@@ -6,6 +6,8 @@ import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.text.input.KeyboardType
+import androidx.compose.foundation.text.KeyboardOptions
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -29,7 +31,7 @@ fun LongitudScreen(onBack: () -> Unit) {
     var entrada by remember { mutableStateOf("") }
     var resultado by remember { mutableStateOf("") }
 
-    // 🔁 Conversión base a metros
+    //  Conversión base a metros
     fun aMetros(valor: Double, unidad: String): Double {
         return when (unidad) {
             "Metros" -> valor
@@ -40,8 +42,8 @@ fun LongitudScreen(onBack: () -> Unit) {
         }
     }
 
-    // 🔁 De metros a cualquier unidad
-    fun fromMeters(valor: Double, unidad: String): Double {
+    // De metros a cualquier unidad
+    fun deMetros(valor: Double, unidad: String): Double {
         return when (unidad) {
             "Metros" -> valor
             "Kilómetros" -> valor / 1000
@@ -51,7 +53,7 @@ fun LongitudScreen(onBack: () -> Unit) {
         }
     }
 
-    // 🔁 Conversión final
+    // Conversión final
     fun convertir() {
         val valor = entrada.toDoubleOrNull()
 
@@ -65,7 +67,7 @@ fun LongitudScreen(onBack: () -> Unit) {
         val destino = partes[1]
 
         val enMetros = aMetros(valor, origen)
-        val convertido = fromMeters(enMetros, destino)
+        val convertido = deMetros(enMetros, destino)
 
         resultado = "%.4f %s".format(convertido, destino)
     }
@@ -85,7 +87,6 @@ fun LongitudScreen(onBack: () -> Unit) {
 
         Spacer(modifier = Modifier.height(24.dp))
 
-        // 🔽 Dropdown único (como querías)
         ExposedDropdownMenuBox(
             expanded = expanded,
             onExpandedChange = { expanded = !expanded }
@@ -122,9 +123,15 @@ fun LongitudScreen(onBack: () -> Unit) {
         // Campo de entrada
         OutlinedTextField(
             value = entrada,
-            onValueChange = { entrada = it },
+            onValueChange = { nuevoValor ->
+                val regex = Regex("^-?\\d*\\.?\\d*$")
+                if (nuevoValor.isEmpty() || nuevoValor.matches(regex)) {
+                    entrada = nuevoValor
+                }
+            },
             label = { Text("Valor a convertir") },
-            singleLine = true
+            singleLine = true,
+            keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number)
         )
 
         Spacer(modifier = Modifier.height(16.dp))

@@ -1,10 +1,12 @@
 package com.example.parcial_movil.ui.theme
 
 import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.dp
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -101,9 +103,14 @@ fun MagnitudScreen(onBack: () -> Unit) {
 
         OutlinedTextField(
             value = entrada,
-            onValueChange = { entrada = it },
+            onValueChange = { nuevoValor ->
+                val regex = Regex("^-?\\d*\\.?\\d*$")
+                if (nuevoValor.isEmpty() || nuevoValor.matches(regex)) {
+                    entrada = nuevoValor
+                }},
             label = { Text("Valor a convertir") },
-            singleLine = true
+            singleLine = true,
+            keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number)
         )
 
         Spacer(modifier = Modifier.height(16.dp))
