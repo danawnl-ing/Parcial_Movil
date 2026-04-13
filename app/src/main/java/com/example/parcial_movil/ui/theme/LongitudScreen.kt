@@ -69,7 +69,7 @@ fun LongitudScreen(onBack: () -> Unit) {
         val enMetros = aMetros(valor, origen)
         val convertido = deMetros(enMetros, destino)
 
-        resultado = "%.4f %s".format(convertido, destino)
+        resultado = "%.2f %s".format(convertido, destino)
     }
 
     Column(
