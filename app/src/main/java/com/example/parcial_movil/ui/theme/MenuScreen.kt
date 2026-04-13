@@ -12,11 +12,12 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import com.example.parcial_movil.ui.theme.LongitudScreen
+
 //Funcion para colocar cada boton para las ventanas
 @Composable
 fun MenuScreen(
     onNavigateToLength: () -> Unit,
+    onNavigateToMasa: () -> Unit,
     onNavigateToMagnitud: () -> Unit
 ) {
     Row(
@@ -31,7 +32,7 @@ fun MenuScreen(
             Text("Longitud")
         }
 
-        Button(onClick = { /* futuro masa */ }) {
+        Button(onClick = { onNavigateToMasa() }) {
             Text("Masa")
         }
 

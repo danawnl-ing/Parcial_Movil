@@ -9,31 +9,33 @@ import androidx.compose.ui.unit.dp
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun LongitudScreen(onBack: () -> Unit) {
+fun MasaScreen(onBack: () -> Unit) {
 
-    // Tipos de conversión disponibles
-    val conversiones = listOf("CM → INCH", "INCH → CM", "KM → Milla", "Milla → KM", "M → FT", "FT → M")
+    val conversiones = listOf(
+        "Kilogramo → Gramo",
+        "Gramo → Kilogramo",
+        "Kilogramo → Libra",
+        "Libra → Kilogramo"
+    )
 
     var seleccion by remember { mutableStateOf(conversiones[0]) }
     var expanded by remember { mutableStateOf(false) }
     var entrada by remember { mutableStateOf("") }
     var resultado by remember { mutableStateOf("") }
 
-    // Función que realiza la conversión según la opción seleccionada
     fun convertir() {
         val valor = entrada.toDoubleOrNull()
         if (valor == null) {
             resultado = "Ingrese un número válido"
             return
         }
+
         resultado = when (seleccion) {
-            "CM → INCH" -> "%.4f INCH".format(valor / 2.54)
-            "INCH → CM" -> "%.4f CM".format(valor * 2.54)
-            "KM → Milla" -> "%.4f Millas".format(valor * 0.621371)
-            "Milla → KM" -> "%.4f KM".format(valor / 0.621371)
-            "M → FT"     -> "%.4f FT".format(valor * 3.28084)
-            "FT → M"     -> "%.4f M".format(valor / 3.28084)
-            else         -> "Conversión no disponible"
+            "Kilogramo → Gramo" -> "%.2f Gramo".format(valor * 1000)
+            "Gramo → Kilogramo" -> "%.2f Kilogramo".format(valor / 1000)
+            "Kilogramo → Libra" -> "%.2f Libra".format(valor * 2.20462)
+            "Libra → Kilogramo" -> "%.2f Kilogramo".format(valor / 2.20462)
+            else -> "Error"
         }
     }
 
@@ -45,15 +47,15 @@ fun LongitudScreen(onBack: () -> Unit) {
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
 
-        Text(text = "Conversión de Longitud", style = MaterialTheme.typography.headlineSmall)
+        Text("Conversión de Masa", style = MaterialTheme.typography.headlineSmall)
 
         Spacer(modifier = Modifier.height(24.dp))
 
-        // Dropdown para elegir el tipo de conversión
         ExposedDropdownMenuBox(
             expanded = expanded,
             onExpandedChange = { expanded = !expanded }
         ) {
+
             OutlinedTextField(
                 value = seleccion,
                 onValueChange = {},
@@ -62,6 +64,7 @@ fun LongitudScreen(onBack: () -> Unit) {
                 trailingIcon = { ExposedDropdownMenuDefaults.TrailingIcon(expanded) },
                 modifier = Modifier.menuAnchor()
             )
+
             ExposedDropdownMenu(
                 expanded = expanded,
                 onDismissRequest = { expanded = false }
@@ -72,7 +75,7 @@ fun LongitudScreen(onBack: () -> Unit) {
                         onClick = {
                             seleccion = opcion
                             expanded = false
-                            resultado = "" // Limpia resultado al cambiar
+                            resultado = ""
                         }
                     )
                 }
@@ -81,7 +84,6 @@ fun LongitudScreen(onBack: () -> Unit) {
 
         Spacer(modifier = Modifier.height(16.dp))
 
-        // Campo de entrada del valor
         OutlinedTextField(
             value = entrada,
             onValueChange = { entrada = it },
@@ -97,17 +99,12 @@ fun LongitudScreen(onBack: () -> Unit) {
 
         Spacer(modifier = Modifier.height(16.dp))
 
-        // Muestra el resultado
         if (resultado.isNotEmpty()) {
-            Text(
-                text = "Resultado: $resultado",
-                style = MaterialTheme.typography.bodyLarge
-            )
+            Text("Resultado: $resultado")
         }
 
         Spacer(modifier = Modifier.height(32.dp))
 
-        // Botón para regresar al menú
         OutlinedButton(onClick = { onBack() }) {
             Text("← Volver al menú")
         }

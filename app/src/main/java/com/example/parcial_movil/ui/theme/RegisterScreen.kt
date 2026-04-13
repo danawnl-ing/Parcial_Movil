@@ -47,7 +47,7 @@ fun RegisterScreen(onRegisterSuccess: () -> Unit) {
         OutlinedTextField(
             value = password,
             onValueChange = { password = it },
-            label = { Text("Contraseñaaa") },
+            label = { Text("Contraseña") },
             visualTransformation = PasswordVisualTransformation()
         )
 

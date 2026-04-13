@@ -25,23 +25,27 @@ class MainActivity : ComponentActivity() {
                             onRegisterSuccess = { isRegistered = true }
                         )
                     }
-
                     currentScreen == "longitud" -> {
                         LongitudScreen(
                             onBack = { currentScreen = "menu" }
                         )
                     }
-
                     currentScreen == "magnitud" -> {
                         MagnitudScreen(
                             onBack = { currentScreen = "menu" }
                         )
                     }
-
+                    currentScreen == "masa" -> {
+                        MasaScreen(
+                            onBack = { currentScreen = "menu" }
+                        )
+                    }
                     else -> {
                         MenuScreen(
                             onNavigateToLength = { currentScreen = "longitud" },
+                            onNavigateToMasa = { currentScreen = "masa" },
                             onNavigateToMagnitud = { currentScreen = "magnitud" }
+
                         )
                     }
                 }
@@ -49,4 +53,3 @@ class MainActivity : ComponentActivity() {
         }
     }
 }
-

@@ -9,22 +9,49 @@ import androidx.compose.ui.unit.dp
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun MagnitudScreen(onBack: () -> Unit) {
+fun LongitudScreen(onBack: () -> Unit) {
 
-    val conversiones = listOf(
-        "Celsius → Fahrenheit",
-        "Fahrenheit → Celsius",
-        "Celsius → Kelvin",
-        "Kelvin → Celsius",
-        "Fahrenheit → Kelvin",
-        "Kelvin → Fahrenheit"
+    val unidades = listOf(
+        "Metros",
+        "Kilómetros",
+        "Pies",
+        "Millas"
     )
+
+    val conversiones = unidades.flatMap { origen ->
+        unidades.filter { destino -> destino != origen }
+            .map { destino -> "$origen → $destino" }
+    }
 
     var seleccion by remember { mutableStateOf(conversiones[0]) }
     var expanded by remember { mutableStateOf(false) }
+
     var entrada by remember { mutableStateOf("") }
     var resultado by remember { mutableStateOf("") }
 
+    // 🔁 Conversión base a metros
+    fun aMetros(valor: Double, unidad: String): Double {
+        return when (unidad) {
+            "Metros" -> valor
+            "Kilómetros" -> valor * 1000
+            "Pies" -> valor * 0.3048
+            "Millas" -> valor * 1609.34
+            else -> valor
+        }
+    }
+
+    // 🔁 De metros a cualquier unidad
+    fun fromMeters(valor: Double, unidad: String): Double {
+        return when (unidad) {
+            "Metros" -> valor
+            "Kilómetros" -> valor / 1000
+            "Pies" -> valor / 0.3048
+            "Millas" -> valor / 1609.34
+            else -> valor
+        }
+    }
+
+    // 🔁 Conversión final
     fun convertir() {
         val valor = entrada.toDoubleOrNull()
 
@@ -33,21 +60,14 @@ fun MagnitudScreen(onBack: () -> Unit) {
             return
         }
 
-        resultado = when (seleccion) {
+        val partes = seleccion.split(" → ")
+        val origen = partes[0]
+        val destino = partes[1]
 
-            "Celsius → Fahrenheit" -> "%.2f °F".format((valor * 9 / 5) + 32)
+        val enMetros = aMetros(valor, origen)
+        val convertido = fromMeters(enMetros, destino)
 
-            "Fahrenheit → Celsius" -> "%.2f °C".format((valor - 32) * 5 / 9)
-
-            "Celsius → Kelvin" -> "%.2f K".format(valor + 273.15)
-
-            "Kelvin → Celsius" -> "%.2f °C".format(valor - 273.15)
-
-            "Fahrenheit → Kelvin" -> "%.2f K".format((valor - 32) * 5 / 9 + 273.15)
-
-            "Kelvin → Fahrenheit" -> "%.2f °F".format((valor - 273.15) * 9 / 5 + 32)
-            else -> "Conversión no disponible"
-        }
+        resultado = "%.4f %s".format(convertido, destino)
     }
 
     Column(
@@ -59,13 +79,13 @@ fun MagnitudScreen(onBack: () -> Unit) {
     ) {
 
         Text(
-            text = "Conversión de Temperatura",
+            text = "Conversión de Longitud",
             style = MaterialTheme.typography.headlineSmall
         )
 
         Spacer(modifier = Modifier.height(24.dp))
 
-        // Dropdown
+        // 🔽 Dropdown único (como querías)
         ExposedDropdownMenuBox(
             expanded = expanded,
             onExpandedChange = { expanded = !expanded }
@@ -99,6 +119,7 @@ fun MagnitudScreen(onBack: () -> Unit) {
 
         Spacer(modifier = Modifier.height(16.dp))
 
+        // Campo de entrada
         OutlinedTextField(
             value = entrada,
             onValueChange = { entrada = it },
